@@ -218,15 +218,9 @@ export default function App() {
               <p>Each destination auto-links to the next one, so you can sketch a full trip quickly and refine later.</p>
             </div>
 
-            {!appConfig.hasAnthropicKey && (
-              <div className={styles.notice}>
-                <strong>Demo mode is active.</strong> Add `VITE_ANTHROPIC_API_KEY` to `.env` any time you want live hotel results and AI travel briefs.
-              </div>
-            )}
-
             {appConfig.useMockData && (
               <div className={styles.noticeAlt}>
-                <strong>Demo mode is on.</strong> Searches and itinerary text will use safe local fallbacks instead of live API calls.
+                <strong>Demo mode is on.</strong> The backend will use safe local fallbacks instead of live API calls.
               </div>
             )}
 

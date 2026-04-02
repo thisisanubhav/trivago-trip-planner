@@ -1,132 +1,177 @@
-# trivago Trip Intelligence Planner
+# Trip Intelligence Planner
 
-A multi-city hotel search and trip planning app built on the **trivago MCP Server** + **Claude AI**.
+A polished multi-city travel planning experience built with **React**, **Vite**, and the **trivago MCP server**.
 
-Submitted as part of a trivago job application to demonstrate real-world usage of the trivago MCP API.
+This project was created to explore what hotel discovery feels like when the search flow is designed around a full itinerary instead of one destination at a time. Rather than forcing separate searches for Paris, Delhi, and New York, the planner lets a traveler shape the whole route first, compare hotel options city by city, and then generate a concise trip brief from the final selections.
 
----
+The app is currently set up to run beautifully in **demo mode**, which makes it easy to share, review, and iterate on the product without relying on paid API credits.
 
-## What it does
+## Why this project stands out
 
-Most hotel search tools require separate searches per city. This app solves that by letting you plan a full multi-stop trip in one place:
+- **Multi-city first**: the UI is built around a sequence of destinations, not isolated one-off hotel searches.
+- **Editorial interface**: the product feels closer to a premium travel planning tool than a raw form-based demo.
+- **Progressive workflow**: planning, comparison, and itinerary creation are separated into clear steps.
+- **Backend-ready architecture**: Anthropic calls are routed through a local Node backend instead of the browser.
+- **Graceful fallback behavior**: when live API access is unavailable, the app drops into demo data instead of breaking.
 
-1. **Multi-destination search** — add 2, 3, or more cities; check-in dates cascade automatically
-2. **Parallel hotel search** — queries the trivago MCP for each city, returning 3 options per destination
-3. **Hotel selection & budget rollup** — pick one hotel per city, see total trip cost instantly
-4. **AI travel brief** — Claude generates a personalised 200-word itinerary guide for your exact selections
+## Core experience
 
-## MCP tools used
+### 1. Plan a route
+Travelers can add multiple destinations, adjust nights, and let check-in/check-out dates cascade automatically from one stop to the next.
 
-| Tool | Where used |
-|------|-----------|
-| `trivago-accommodation-search` | Hotel search per destination with check-in/out, adults, rooms |
-| `trivago-search-suggestions` | City name resolution before search |
-| `trivago-accommodation-radius-search` | Available for landmark-based search extension |
+### 2. Compare stays by city
+The app groups results per destination, making it easy to shortlist one hotel in each location rather than losing context in a single giant list.
 
----
+### 3. Review trip budget
+Once hotels are selected, the planner rolls up accommodation cost, average nightly spend, and city-by-city breakdowns.
 
-## Getting started
+### 4. Generate a trip summary
+The itinerary view turns selected stays into a compact trip overview with timeline, property summary, and an AI-generated travel brief when live access is available.
+
+## Demo mode
+
+This repository is intentionally friendly to demo and portfolio use.
+
+In demo mode:
+
+- hotel results fall back to local sample data
+- the UI still shows the full planning flow
+- the itinerary screen still works
+- the app remains useful even if Anthropic billing is unavailable
+
+If you simply want to run the project and explore the product, demo mode is the best default.
+
+## Local setup
 
 ### Prerequisites
 
 - Node.js 18+
-- An [Anthropic API key](https://console.anthropic.com)
+- npm
 
 ### Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/trivago-trip-planner.git
+git clone https://github.com/thisisanubhav/trivago-trip-planner.git
 cd trivago-trip-planner
 npm install
 ```
 
 ### Configure
 
+Copy the environment template:
+
 ```bash
 cp .env.example .env
-# Edit .env and add your Anthropic API key
 ```
 
-For local UI demos without a live API key, you can also set:
+Recommended demo-mode setup:
 
 ```bash
 VITE_USE_MOCK_DATA=true
 ```
 
-### Run locally
+If you want to try live Anthropic-backed requests later, use:
+
+```bash
+ANTHROPIC_API_KEY=your_real_key_here
+VITE_USE_MOCK_DATA=false
+```
+
+### Run the app
 
 ```bash
 npm run dev
-# Open http://localhost:3000
 ```
 
-### Build for production
+This starts:
+
+- the Vite frontend on `http://localhost:3000`
+- the local API backend on `http://localhost:3001`
+
+## Production-style run
+
+Build the frontend bundle:
 
 ```bash
 npm run build
-# Output in /dist
 ```
 
----
-
-## Deploy
-
-### Vercel (recommended)
+Serve the built app and API together:
 
 ```bash
-npm i -g vercel
-vercel
+npm run start
 ```
 
-Set `VITE_ANTHROPIC_API_KEY` in your Vercel project environment variables.
-If you want to demo the UI without live traffic, set `VITE_USE_MOCK_DATA=false` in production and keep fallback mode for local development only.
+## Architecture
 
-### Netlify
+### Frontend
 
-```bash
-npm i -g netlify-cli
-netlify deploy --build
-```
+- **React 18**
+- **Vite**
+- **CSS Modules**
 
-Set `VITE_ANTHROPIC_API_KEY` in Netlify → Site settings → Environment variables.
+### Backend
 
----
+- lightweight **Node HTTP server**
+- `/api/search-hotels`
+- `/api/travel-brief`
+- `/api/health`
+
+### AI and MCP integration
+
+- **Anthropic Messages API**
+- **trivago MCP server**
+
+The current backend is designed so Anthropic credentials stay on the server, not in the browser bundle.
 
 ## Project structure
 
-```
+```text
+server/
+  apiServer.mjs       Local API server for development
+  appServer.mjs       Serves built frontend + API in one process
+  service.mjs         Backend logic for Anthropic/trivago requests
+
+scripts/
+  dev.mjs             Starts frontend and backend together
+
 src/
-├── api/
-│   └── claude.js          # All Anthropic API + trivago MCP calls
-├── components/
-│   ├── DestinationCard.jsx  # Per-city input card with cascading dates
-│   ├── HotelCard.jsx        # Individual hotel result card
-│   ├── BudgetSummary.jsx    # Total cost breakdown across cities
-│   └── ItineraryView.jsx    # Timeline + AI travel brief
-├── utils/
-│   └── dates.js             # Date helpers (cascade, format, add days)
-├── App.jsx                  # Main app shell, tab routing, state
-└── index.css                # Global tokens, dark mode, base styles
+  api/claude.js       Client-side wrappers for backend endpoints
+  components/         Destination, hotel, budget, and itinerary UI
+  utils/dates.js      Date helpers for cascading stay logic
+  App.jsx             Main application flow and state
+  App.module.css      App shell styling
+  index.css           Global design system and visual tokens
 ```
 
----
+## What is working today
 
-## Tech stack
+- multi-destination planning flow
+- cascading travel dates
+- hotel comparison cards
+- accommodation budget summary
+- itinerary assembly
+- local backend routing
+- demo-mode fallback behavior
+- production build output
 
-- **React 18** + **Vite**
-- **trivago MCP Server** via Anthropic's MCP integration
-- **Claude claude-sonnet-4-20250514** for hotel search orchestration + travel brief generation
-- CSS Modules with full dark mode support
+## Current limitations
 
----
+- live hotel search depends on Anthropic billing being active
+- demo mode uses representative fallback data instead of real-time trivago responses
+- the app is optimized for a strong product demo and code sample, not for enterprise-scale booking workflows
 
-## Notes
+## Why the backend matters
 
-- This project now validates env config at runtime and can run in explicit mock mode with `VITE_USE_MOCK_DATA=true`.
-- The Anthropic API key is still used client-side (via `VITE_` prefix). For a real production deployment, move the Anthropic request logic into a server or serverless function so the key never reaches the browser.
-- Hotel data is sourced from trivago via the MCP server when available. If the live call fails, the UI clearly labels fallback demo data instead of silently swapping it in.
+Earlier versions of the project used a client-side `VITE_ANTHROPIC_API_KEY`, which is not safe for a real deployment. The current version moves model requests to the backend so the app is closer to production shape while still staying simple enough to run locally.
 
----
+## Future improvements
+
+- add screenshots or a short product GIF to the README
+- persist saved trip plans
+- support alternate AI providers for itinerary generation
+- add transport planning between selected cities
+- ship a hosted preview with a shared demo environment
 
 ## License
 

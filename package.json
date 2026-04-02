@@ -4,9 +4,12 @@
   "description": "Multi-city trip planner powered by trivago MCP + Claude AI",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev.mjs",
+    "dev:api": "node server/apiServer.mjs",
+    "dev:web": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "node server/appServer.mjs",
+    "start": "node server/appServer.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
