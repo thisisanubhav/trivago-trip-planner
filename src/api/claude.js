@@ -1,4 +1,4 @@
-import { appConfig, getConfigError } from '../config'
+import { appConfig } from '../config'
 
 const TRIVAGO_MCP = {
   type: 'url',
@@ -11,9 +11,8 @@ const ANTHROPIC_VERSION = '2023-06-01'
 const ANTHROPIC_BETA = 'mcp-client-2025-04-04'
 
 async function callClaude({ messages, mcpServers = [], systemPrompt = null, maxTokens = 1000 }) {
-  const configError = getConfigError()
-  if (configError) {
-    throw new Error(configError)
+  if (!appConfig.hasAnthropicKey) {
+    throw new Error('Missing Anthropic API key')
   }
 
   const body = {
@@ -113,11 +112,13 @@ function fallbackHotels(city) {
 }
 
 export async function searchHotelsForDestination({ city, checkin, checkout, nights, adults, rooms }) {
-  if (appConfig.useMockData) {
+  if (appConfig.isDemoMode) {
     return {
       hotels: fallbackHotels(city),
       source: 'fallback',
-      warning: 'Mock mode is enabled, so these hotel results are demo data.',
+      warning: appConfig.useMockData
+        ? 'Mock mode is enabled, so these hotel results are demo data.'
+        : 'No Anthropic API key was configured, so demo hotel results are being shown.',
     }
   }
 
@@ -169,11 +170,13 @@ Only return the JSON array. Nothing else.`
 }
 
 export async function generateTravelBrief(selections) {
-  if (appConfig.useMockData) {
+  if (appConfig.isDemoMode) {
     return {
       text: null,
       source: 'fallback',
-      warning: 'Mock mode is enabled, so the AI travel brief is disabled.',
+      warning: appConfig.useMockData
+        ? 'Mock mode is enabled, so the AI travel brief is disabled.'
+        : 'No Anthropic API key was configured, so the AI travel brief is unavailable.',
       error: '',
     }
   }

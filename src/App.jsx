@@ -4,7 +4,7 @@ import HotelCard from './components/HotelCard'
 import BudgetSummary from './components/BudgetSummary'
 import ItineraryView from './components/ItineraryView'
 import { searchHotelsForDestination } from './api/claude'
-import { appConfig, getConfigError } from './config'
+import { appConfig } from './config'
 import { defaultCheckin, calcCheckout, addDays, totalNights } from './utils/dates'
 import styles from './App.module.css'
 
@@ -91,11 +91,6 @@ export default function App() {
     const validation = validateSearch()
     if (!validation.valid) {
       setError(validation.message)
-      return
-    }
-
-    if (!appConfig.hasAnthropicKey && !appConfig.useMockData) {
-      setError(getConfigError())
       return
     }
 
@@ -209,7 +204,7 @@ export default function App() {
           <div className={styles.statusStrip}>
             <span>{searchCount} destination{searchCount === 1 ? '' : 's'} ready</span>
             <span>{selectedCount} hotel pick{selectedCount === 1 ? '' : 's'}</span>
-            {appConfig.useMockData && <span>Demo data mode</span>}
+            {appConfig.isDemoMode && <span>Demo data mode</span>}
           </div>
         </div>
 
@@ -223,9 +218,9 @@ export default function App() {
               <p>Each destination auto-links to the next one, so you can sketch a full trip quickly and refine later.</p>
             </div>
 
-            {!appConfig.hasAnthropicKey && !appConfig.useMockData && (
+            {!appConfig.hasAnthropicKey && (
               <div className={styles.notice}>
-                <strong>Setup needed.</strong> Add `VITE_ANTHROPIC_API_KEY` to `.env` before live searches will run.
+                <strong>Demo mode is active.</strong> Add `VITE_ANTHROPIC_API_KEY` to `.env` any time you want live hotel results and AI travel briefs.
               </div>
             )}
 
