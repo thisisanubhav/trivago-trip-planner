@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import.meta.env.VITE_ANTHROPIC_API_KEY
 import DestinationCard from './components/DestinationCard'
 import HotelCard from './components/HotelCard'
 import BudgetSummary from './components/BudgetSummary'
