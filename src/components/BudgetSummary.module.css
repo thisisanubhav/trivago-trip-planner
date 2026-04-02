@@ -1,88 +1,100 @@
 .wrapper {
-  margin-top: 1.5rem;
-  border-top: 0.5px solid var(--color-border);
-  padding-top: 1.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(92, 67, 44, 0.08);
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   margin-bottom: 1rem;
 }
 
 .metricCard {
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 1rem 1.05rem;
+  border-radius: calc(var(--radius-lg) - 6px);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.95), rgba(255, 244, 231, 0.88)),
+    radial-gradient(circle at top right, rgba(29, 79, 140, 0.08), transparent 8rem);
+  border: 1px solid rgba(92, 67, 44, 0.08);
 }
 
 .metricLabel {
-  font-size: 11px;
-  color: var(--color-text-secondary);
-  margin-bottom: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
 }
 
 .metricValue {
-  font-size: 22px;
-  font-weight: 500;
+  margin-top: 0.35rem;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1;
+  font-weight: 800;
   color: var(--color-text-primary);
-  line-height: 1.1;
 }
 
 .metricSub {
-  font-size: 11px;
-  color: var(--color-text-tertiary);
-  margin-top: 3px;
+  margin-top: 0.28rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
 }
 
 .breakdown {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  gap: 8px;
 }
 
 .breakdownRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
-  font-size: 13px;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border-radius: calc(var(--radius-lg) - 8px);
+  background: rgba(255, 250, 240, 0.82);
+  border: 1px solid rgba(92, 67, 44, 0.08);
 }
 
 .breakdownCity {
-  font-weight: 500;
+  display: block;
+  font-weight: 700;
   color: var(--color-text-primary);
-  margin-right: 8px;
 }
 
 .breakdownHotel {
+  display: block;
+  margin-top: 0.12rem;
   color: var(--color-text-secondary);
 }
 
 .breakdownRight {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.85rem;
+  white-space: nowrap;
 }
 
 .breakdownNights {
-  font-size: 11px;
+  font-size: 0.82rem;
   color: var(--color-text-tertiary);
 }
 
 .breakdownCost {
-  font-weight: 500;
-  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-brand-strong);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 720px) {
   .cards {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
-  .cards > *:last-child {
-    grid-column: 1 / -1;
+
+  .breakdownRow {
+    flex-direction: column;
+    align-items: start;
   }
 }

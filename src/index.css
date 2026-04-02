@@ -5,68 +5,58 @@
 }
 
 :root {
-  --color-bg: #ffffff;
-  --color-bg-secondary: #f5f5f3;
-  --color-bg-tertiary: #eeece8;
-  --color-text-primary: #1a1a18;
-  --color-text-secondary: #6b6b67;
-  --color-text-tertiary: #9b9b96;
-  --color-border: rgba(0,0,0,0.1);
-  --color-border-strong: rgba(0,0,0,0.2);
-  --color-blue: #185FA5;
-  --color-blue-bg: #E6F1FB;
-  --color-blue-text: #0C447C;
-  --color-green-bg: #EAF3DE;
-  --color-green-text: #3B6D11;
-  --color-teal-bg: #E1F5EE;
-  --color-teal-text: #0F6E56;
-  --color-amber-text: #BA7517;
-  --color-error-bg: #FAECE7;
-  --color-error-text: #993C1D;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #1a1a18;
-    --color-bg-secondary: #242422;
-    --color-bg-tertiary: #2e2e2b;
-    --color-text-primary: #f0ede8;
-    --color-text-secondary: #a0a09b;
-    --color-text-tertiary: #6b6b67;
-    --color-border: rgba(255,255,255,0.1);
-    --color-border-strong: rgba(255,255,255,0.2);
-    --color-blue: #378ADD;
-    --color-blue-bg: #0C2A45;
-    --color-blue-text: #85B7EB;
-    --color-green-bg: #1a2e0a;
-    --color-green-text: #97C459;
-    --color-teal-bg: #04201a;
-    --color-teal-text: #5DCAA5;
-    --color-amber-text: #EF9F27;
-    --color-error-bg: #2a100a;
-    --color-error-text: #F0997B;
-  }
+  color-scheme: light;
+  --color-bg: #fffdf8;
+  --color-bg-secondary: rgba(255, 250, 240, 0.8);
+  --color-bg-tertiary: #f4ede2;
+  --color-surface-strong: #fff5e7;
+  --color-text-primary: #201811;
+  --color-text-secondary: #65584c;
+  --color-text-tertiary: #9f8e80;
+  --color-border: rgba(92, 67, 44, 0.12);
+  --color-border-strong: rgba(92, 67, 44, 0.2);
+  --color-brand: #c45b2f;
+  --color-brand-strong: #8d3714;
+  --color-brand-soft: rgba(196, 91, 47, 0.12);
+  --color-blue-bg: #eaf3ff;
+  --color-blue-text: #1d4f8c;
+  --color-green-bg: #e7f4e8;
+  --color-green-text: #2d6b38;
+  --color-teal-bg: #dff6f0;
+  --color-teal-text: #0f6e56;
+  --color-amber-text: #a55d0c;
+  --color-error-bg: #fdece4;
+  --color-error-text: #9a3f1b;
+  --shadow-soft: 0 18px 40px rgba(104, 77, 50, 0.1);
+  --shadow-card: 0 8px 24px rgba(82, 60, 33, 0.08);
+  --radius-md: 12px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
 }
 
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  background: var(--color-bg-tertiary);
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(255, 210, 160, 0.35), transparent 24rem),
+    radial-gradient(circle at top right, rgba(120, 185, 170, 0.2), transparent 18rem),
+    linear-gradient(180deg, #f8efe2 0%, #f4ede2 45%, #efe6d7 100%);
   color: var(--color-text-primary);
   min-height: 100vh;
   line-height: 1.5;
 }
 
+#root {
+  min-height: 100vh;
+}
+
 input, select, button, textarea {
-  font-family: inherit;
-  font-size: 14px;
+  font: inherit;
 }
 
 input[type="text"],
@@ -74,23 +64,32 @@ input[type="number"],
 input[type="date"],
 select {
   width: 100%;
-  height: 38px;
-  padding: 0 10px;
-  background: var(--color-bg);
-  border: 0.5px solid var(--color-border-strong);
+  min-height: 46px;
+  padding: 0 14px;
+  background: rgba(255, 253, 248, 0.95);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+input::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 input:focus, select:focus {
-  border-color: var(--color-blue);
-  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.12);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 4px rgba(196, 91, 47, 0.12);
+  transform: translateY(-1px);
+}
+
+input[readOnly] {
+  background: rgba(246, 238, 225, 0.85);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -101,6 +100,10 @@ button {
 }
 
 a {
-  color: var(--color-blue);
+  color: var(--color-brand-strong);
   text-decoration: none;
+}
+
+::selection {
+  background: rgba(196, 91, 47, 0.18);
 }

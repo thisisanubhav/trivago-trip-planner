@@ -47,6 +47,12 @@ cp .env.example .env
 # Edit .env and add your Anthropic API key
 ```
 
+For local UI demos without a live API key, you can also set:
+
+```bash
+VITE_USE_MOCK_DATA=true
+```
+
 ### Run locally
 
 ```bash
@@ -73,6 +79,7 @@ vercel
 ```
 
 Set `VITE_ANTHROPIC_API_KEY` in your Vercel project environment variables.
+If you want to demo the UI without live traffic, set `VITE_USE_MOCK_DATA=false` in production and keep fallback mode for local development only.
 
 ### Netlify
 
@@ -115,8 +122,9 @@ src/
 
 ## Notes
 
-- The Anthropic API key is used client-side (via `VITE_` prefix). For a production app, proxy calls through a backend to keep the key secret.
-- Hotel data is sourced entirely from trivago via the MCP server. Fallback mock data is used only if the MCP call fails (e.g. during local development without network access).
+- This project now validates env config at runtime and can run in explicit mock mode with `VITE_USE_MOCK_DATA=true`.
+- The Anthropic API key is still used client-side (via `VITE_` prefix). For a real production deployment, move the Anthropic request logic into a server or serverless function so the key never reaches the browser.
+- Hotel data is sourced from trivago via the MCP server when available. If the live call fails, the UI clearly labels fallback demo data instead of silently swapping it in.
 
 ---
 

@@ -1,11 +1,10 @@
 .page {
   min-height: 100vh;
-  background: var(--color-bg-tertiary);
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 3rem;
 }
 
 .container {
-  max-width: 820px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -13,73 +12,210 @@
   margin-bottom: 1.5rem;
 }
 
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroStats {
+  border: 1px solid rgba(92, 67, 44, 0.09);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
+}
+
+.heroCopy {
+  padding: 2rem;
+  background:
+    linear-gradient(135deg, rgba(255, 252, 247, 0.98), rgba(255, 245, 231, 0.88)),
+    radial-gradient(circle at 80% 20%, rgba(196, 91, 47, 0.14), transparent 10rem);
+}
+
 .mcpBadge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: var(--radius-md);
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
   background: var(--color-teal-bg);
   color: var(--color-teal-text);
-  margin-bottom: 10px;
+  margin-bottom: 1.25rem;
 }
 
 .mcpDot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: currentColor;
 }
 
-.header h1 {
-  font-size: 26px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  letter-spacing: -0.4px;
-  margin-bottom: 6px;
+.heroCopy h1 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  max-width: 10ch;
 }
 
-.header p {
-  font-size: 14px;
+.heroCopy p {
+  margin-top: 1rem;
+  max-width: 42rem;
+  font-size: 1.02rem;
   color: var(--color-text-secondary);
-  line-height: 1.5;
+}
+
+.heroStats {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+  background: rgba(255, 252, 246, 0.72);
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 160px;
+  padding: 1.3rem;
+  border-radius: calc(var(--radius-lg) - 4px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 244, 231, 0.95)),
+    radial-gradient(circle at top right, rgba(15, 110, 86, 0.14), transparent 8rem);
+  border: 1px solid rgba(92, 67, 44, 0.08);
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+}
+
+.statCard strong {
+  margin-top: auto;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 1;
+}
+
+.statMeta {
+  margin-top: 0.35rem;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.4rem 0 1.2rem;
 }
 
 .tabs {
   display: flex;
-  gap: 2px;
-  border-bottom: 0.5px solid var(--color-border);
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .tab {
-  padding: 8px 16px;
-  font-size: 13px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 130px;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  background: rgba(255, 250, 240, 0.62);
   color: var(--color-text-secondary);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -0.5px;
-  transition: color 0.15s;
-  text-transform: capitalize;
+  box-shadow: 0 3px 12px rgba(104, 77, 50, 0.05);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
 }
 
 .tab:hover {
+  transform: translateY(-1px);
+  border-color: rgba(196, 91, 47, 0.16);
   color: var(--color-text-primary);
 }
 
+.tabEyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+}
+
 .tabActive {
-  color: var(--color-text-primary);
-  border-bottom-color: var(--color-text-primary);
-  font-weight: 500;
+  background: linear-gradient(180deg, rgba(196, 91, 47, 0.16), rgba(255, 250, 240, 0.95));
+  border-color: rgba(196, 91, 47, 0.24);
+  color: var(--color-brand-strong);
+}
+
+.statusStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.statusStrip span {
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 250, 240, 0.76);
+  border: 1px solid rgba(92, 67, 44, 0.08);
+  font-size: 0.86rem;
+  color: var(--color-text-secondary);
 }
 
 .panel {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 251, 245, 0.7);
+  border: 1px solid rgba(92, 67, 44, 0.08);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+}
+
+.sectionIntro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.sectionIntro h2,
+.settingsHeader h3 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.sectionIntro p,
+.settingsHeader p {
+  max-width: 34rem;
+  font-size: 0.96rem;
+  color: var(--color-text-secondary);
+}
+
+.sectionLabel {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand);
 }
 
 .addBtn {
@@ -87,175 +223,261 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 13px;
-  color: var(--color-blue);
-  background: none;
-  border: 0.5px dashed var(--color-blue);
-  border-radius: var(--radius-lg);
-  padding: 10px 16px;
   width: 100%;
-  margin-bottom: 1rem;
-  transition: background 0.15s;
+  padding: 1rem 1.1rem;
+  border: 1.5px dashed rgba(196, 91, 47, 0.35);
+  border-radius: calc(var(--radius-lg) - 2px);
+  background: rgba(255, 247, 238, 0.76);
+  color: var(--color-brand-strong);
+  font-weight: 700;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
 
 .addBtn:hover {
-  background: var(--color-blue-bg);
+  transform: translateY(-1px);
+  background: rgba(255, 243, 230, 0.96);
+  border-color: rgba(196, 91, 47, 0.52);
+}
+
+.settingsCard {
+  padding: 1.15rem;
+  border-radius: calc(var(--radius-lg) - 2px);
+  background: linear-gradient(180deg, rgba(234, 243, 255, 0.58), rgba(255, 250, 240, 0.95));
+  border: 1px solid rgba(29, 79, 140, 0.08);
+}
+
+.settingsHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .travellerRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 180px));
+  gap: 12px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .field label {
-  font-size: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--color-text-secondary);
 }
 
 .error {
-  font-size: 13px;
+  font-size: 0.92rem;
   color: var(--color-error-text);
   background: var(--color-error-bg);
-  padding: 10px 14px;
+  padding: 0.9rem 1rem;
   border-radius: var(--radius-md);
-  margin-bottom: 10px;
+  border: 1px solid rgba(154, 63, 27, 0.12);
+}
+
+.notice,
+.noticeAlt,
+.cityNotice,
+.emptyState {
+  padding: 1rem 1.05rem;
+  border-radius: calc(var(--radius-lg) - 6px);
+  border: 1px solid rgba(92, 67, 44, 0.08);
+}
+
+.notice {
+  background: rgba(234, 243, 255, 0.82);
+  color: var(--color-blue-text);
+}
+
+.noticeAlt,
+.cityNotice {
+  background: rgba(255, 247, 238, 0.92);
+  color: var(--color-text-secondary);
+}
+
+.emptyState {
+  text-align: center;
+  background: rgba(255, 250, 240, 0.9);
+}
+
+.emptyState h3 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+}
+
+.emptyState p {
+  margin-top: 0.35rem;
+  color: var(--color-text-secondary);
 }
 
 .searchBtn {
-  background: var(--color-text-primary);
-  color: var(--color-bg);
-  border: none;
-  border-radius: var(--radius-lg);
-  padding: 13px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
   width: 100%;
-  transition: opacity 0.15s;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-strong) 100%);
+  color: #fff8f0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 16px 30px rgba(141, 55, 20, 0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
 .searchBtn:hover {
-  opacity: 0.85;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 32px rgba(141, 55, 20, 0.24);
 }
 
 .searchBtn:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.loadingState {
+.loadingState,
+.noResults {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 2.8rem 1rem;
+  border-radius: calc(var(--radius-lg) - 4px);
+  background: rgba(255, 250, 240, 0.9);
+  border: 1px solid rgba(92, 67, 44, 0.08);
 }
 
 .spinner {
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--color-border);
-  border-top-color: var(--color-blue);
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(196, 91, 47, 0.18);
+  border-top-color: var(--color-brand);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
-  margin: 0 auto 12px;
+  margin: 0 auto 0.85rem;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.loadingState p {
-  font-size: 13px;
+.loadingState p,
+.noResults {
   color: var(--color-text-secondary);
 }
 
 .loadingCity {
-  font-size: 12px;
+  margin-top: 0.3rem;
+  font-size: 0.88rem;
   color: var(--color-text-tertiary);
-  margin-top: 4px;
 }
 
 .citySection {
-  margin-bottom: 1.5rem;
+  margin-top: 0.35rem;
 }
 
 .cityLabel {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
 .cityLabel span:first-child {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  background: var(--color-bg-secondary);
-  padding: 3px 10px;
-  border-radius: var(--radius-md);
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 245, 231, 0.95);
+  border: 1px solid rgba(196, 91, 47, 0.14);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-brand-strong);
 }
 
 .cityDates {
-  font-size: 12px;
-  color: var(--color-text-tertiary) !important;
-  background: none !important;
+  font-size: 0.84rem;
+  color: var(--color-text-secondary) !important;
+  background: transparent !important;
+  border: 0 !important;
   padding: 0 !important;
 }
 
 .hotelGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 10px;
-}
-
-.noResults {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  padding: 20px;
-  text-align: center;
-  border: 0.5px dashed var(--color-border);
-  border-radius: var(--radius-lg);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
 }
 
 .hint {
-  font-size: 12px;
-  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
   text-align: center;
-  margin-top: 1rem;
 }
 
 .footer {
-  margin-top: 3rem;
-  font-size: 12px;
+  margin-top: 2rem;
+  font-size: 0.84rem;
   color: var(--color-text-tertiary);
   text-align: center;
-  padding-bottom: 1rem;
 }
 
 .footer a {
   color: var(--color-text-secondary);
 }
 
-@media (max-width: 480px) {
-  .page {
-    padding: 1rem 0.75rem;
+@media (max-width: 900px) {
+  .hero,
+  .sectionIntro,
+  .settingsHeader {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: start;
   }
 
-  .header h1 {
-    font-size: 22px;
+  .heroCopy {
+    padding: 1.5rem;
+  }
+
+  .heroStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .travellerRow {
     grid-template-columns: 1fr 1fr;
   }
+}
 
+@media (max-width: 640px) {
+  .page {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .panel,
+  .heroCopy,
+  .heroStats {
+    padding: 1rem;
+  }
+
+  .heroStats,
+  .travellerRow,
   .hotelGrid {
     grid-template-columns: 1fr;
+  }
+
+  .tab {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .statusStrip span {
+    width: 100%;
+    text-align: center;
   }
 }

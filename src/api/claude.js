@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY
+import { appConfig, getConfigError } from '../config'
 
 const TRIVAGO_MCP = {
   type: 'url',
@@ -6,24 +6,39 @@ const TRIVAGO_MCP = {
   name: 'trivago',
 }
 
+const ANTHROPIC_ENDPOINT = 'https://api.anthropic.com/v1/messages'
+const ANTHROPIC_VERSION = '2023-06-01'
+const ANTHROPIC_BETA = 'mcp-client-2025-04-04'
+
 async function callClaude({ messages, mcpServers = [], systemPrompt = null, maxTokens = 1000 }) {
+  const configError = getConfigError()
+  if (configError) {
+    throw new Error(configError)
+  }
+
   const body = {
     model: 'claude-sonnet-4-20250514',
     max_tokens: maxTokens,
     messages,
   }
+
   if (systemPrompt) body.system = systemPrompt
   if (mcpServers.length > 0) body.mcp_servers = mcpServers
 
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+  const resp = await fetch(ANTHROPIC_ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': appConfig.anthropicApiKey,
+      'anthropic-version': ANTHROPIC_VERSION,
+      'anthropic-beta': ANTHROPIC_BETA,
+    },
     body: JSON.stringify(body),
   })
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({}))
-    throw new Error(err?.error?.message || `API error ${resp.status}`)
+    throw new Error(err?.error?.message || `Anthropic API error ${resp.status}`)
   }
 
   return resp.json()
@@ -31,15 +46,15 @@ async function callClaude({ messages, mcpServers = [], systemPrompt = null, maxT
 
 function extractTextFromResponse(data) {
   return data.content
-    ?.filter((x) => x.type === 'text')
-    .map((x) => x.text)
+    ?.filter((item) => item.type === 'text')
+    .map((item) => item.text)
     .join('\n') || ''
 }
 
 function extractMcpResultFromResponse(data) {
   return data.content
-    ?.filter((x) => x.type === 'mcp_tool_result')
-    .map((x) => x.content?.[0]?.text || '')
+    ?.filter((item) => item.type === 'mcp_tool_result')
+    .map((item) => item.content?.[0]?.text || '')
     .join('\n') || ''
 }
 
@@ -47,8 +62,25 @@ function parseJsonArray(raw) {
   const clean = raw.replace(/```json|```/g, '').trim()
   const start = clean.indexOf('[')
   const end = clean.lastIndexOf(']')
+
   if (start === -1 || end === -1) return null
-  return JSON.parse(clean.slice(start, end + 1))
+
+  try {
+    return JSON.parse(clean.slice(start, end + 1))
+  } catch {
+    return null
+  }
+}
+
+function sanitizeHotel(hotel) {
+  return {
+    name: hotel?.name || 'Unnamed hotel',
+    area: hotel?.area || 'Area not specified',
+    pricePerNight: Math.max(0, Math.round(Number(hotel?.pricePerNight) || 0)),
+    stars: Math.min(5, Math.max(1, Math.round(Number(hotel?.stars) || 3))),
+    rating: Math.min(10, Math.max(0, Number(hotel?.rating) || 0)),
+    highlights: hotel?.highlights || 'Well-located stay option.',
+  }
 }
 
 function fallbackHotels(city) {
@@ -67,7 +99,7 @@ function fallbackHotels(city) {
       pricePerNight: 88,
       stars: 3,
       rating: 7.9,
-      highlights: 'Charming décor, close to attractions',
+      highlights: 'Charming decor, close to attractions',
     },
     {
       name: `Grand ${city} Resort`,
@@ -81,6 +113,14 @@ function fallbackHotels(city) {
 }
 
 export async function searchHotelsForDestination({ city, checkin, checkout, nights, adults, rooms }) {
+  if (appConfig.useMockData) {
+    return {
+      hotels: fallbackHotels(city),
+      source: 'fallback',
+      warning: 'Mock mode is enabled, so these hotel results are demo data.',
+    }
+  }
+
   const prompt = `Use trivago to search for accommodations in ${city} from ${checkin} to ${checkout} for ${adults} adult(s) and ${rooms} room(s).
 
 Return the top 3 results as a raw JSON array (no markdown, no explanation) with this exact shape:
@@ -105,19 +145,41 @@ Only return the JSON array. Nothing else.`
     const mcpRaw = extractMcpResultFromResponse(data)
     const textRaw = extractTextFromResponse(data)
     const raw = mcpRaw || textRaw
-
     const parsed = parseJsonArray(raw)
-    if (parsed && Array.isArray(parsed) && parsed.length > 0) return parsed
-  } catch (e) {
-    console.warn(`trivago MCP search failed for ${city}:`, e.message)
-  }
 
-  return fallbackHotels(city)
+    if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+      return {
+        hotels: parsed.map(sanitizeHotel),
+        source: 'live',
+        warning: '',
+      }
+    }
+
+    throw new Error('The hotel response could not be parsed.')
+  } catch (error) {
+    console.warn(`trivago MCP search failed for ${city}:`, error.message)
+
+    return {
+      hotels: fallbackHotels(city),
+      source: 'fallback',
+      warning: `Live hotel search was unavailable for ${city}, so demo fallback results are shown instead.`,
+      error: error.message,
+    }
+  }
 }
 
 export async function generateTravelBrief(selections) {
+  if (appConfig.useMockData) {
+    return {
+      text: null,
+      source: 'fallback',
+      warning: 'Mock mode is enabled, so the AI travel brief is disabled.',
+      error: '',
+    }
+  }
+
   const lines = selections
-    .map((s) => `- ${s.city}: ${s.hotel.name} in ${s.hotel.area} (${s.nights} nights, check-in ${s.checkin})`)
+    .map((selection) => `- ${selection.city}: ${selection.hotel.name} in ${selection.hotel.area} (${selection.nights} nights, check-in ${selection.checkin})`)
     .join('\n')
 
   const prompt = `Write a concise, friendly travel brief (200 words max) for this multi-city trip:
@@ -137,9 +199,21 @@ Keep the tone warm and practical. No headers, just flowing paragraphs.`
       messages: [{ role: 'user', content: prompt }],
       maxTokens: 600,
     })
-    return extractTextFromResponse(data) || null
-  } catch (e) {
-    console.warn('Travel brief generation failed:', e.message)
-    return null
+
+    return {
+      text: extractTextFromResponse(data) || null,
+      source: 'live',
+      warning: '',
+      error: '',
+    }
+  } catch (error) {
+    console.warn('Travel brief generation failed:', error.message)
+
+    return {
+      text: null,
+      source: 'fallback',
+      warning: 'The AI travel brief is unavailable right now, so a local summary is shown instead.',
+      error: error.message,
+    }
   }
 }

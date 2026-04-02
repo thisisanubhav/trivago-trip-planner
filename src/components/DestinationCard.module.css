@@ -1,76 +1,79 @@
 .card {
-  background: var(--color-bg);
-  border: 0.5px solid var(--color-border-strong);
-  border-radius: var(--radius-lg);
-  padding: 1rem;
-  margin-bottom: 10px;
   position: relative;
+  padding: 1.2rem;
+  margin-bottom: 0.1rem;
+  border: 1px solid rgba(92, 67, 44, 0.1);
+  border-radius: calc(var(--radius-lg) - 2px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 247, 238, 0.94)),
+    radial-gradient(circle at top right, rgba(29, 79, 140, 0.08), transparent 8rem);
+  box-shadow: var(--shadow-card);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
   background: var(--color-blue-bg);
   color: var(--color-blue-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .removeBtn {
-  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   color: var(--color-text-tertiary);
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: var(--radius-md);
-  transition: color 0.15s, background 0.15s;
+  background: rgba(255, 255, 255, 0.66);
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
 }
 
 .removeBtn:hover {
   color: var(--color-error-text);
   background: var(--color-error-bg);
+  transform: rotate(90deg);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 10px;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .row:last-child {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 0;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
+.field,
 .fieldSmall {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  max-width: 120px;
+  gap: 6px;
 }
 
 label {
-  font-size: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--color-text-secondary);
 }
 
-@media (max-width: 480px) {
-  .row {
+@media (max-width: 640px) {
+  .row,
+  .row:last-child {
     grid-template-columns: 1fr;
-  }
-  .fieldSmall {
-    max-width: 100%;
   }
 }
