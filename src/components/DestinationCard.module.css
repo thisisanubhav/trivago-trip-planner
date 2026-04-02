@@ -1,0 +1,76 @@
+.card {
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: var(--radius-md);
+  background: var(--color-blue-bg);
+  color: var(--color-blue-text);
+}
+
+.removeBtn {
+  font-size: 18px;
+  color: var(--color-text-tertiary);
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: var(--radius-md);
+  transition: color 0.15s, background 0.15s;
+}
+
+.removeBtn:hover {
+  color: var(--color-error-text);
+  background: var(--color-error-bg);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fieldSmall {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 120px;
+}
+
+label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .fieldSmall {
+    max-width: 100%;
+  }
+}

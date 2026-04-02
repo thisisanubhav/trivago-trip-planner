@@ -1,0 +1,107 @@
+.card {
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+  outline: none;
+}
+
+.card:hover {
+  border-color: var(--color-blue);
+}
+
+.card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.2);
+}
+
+.selected {
+  border: 2px solid var(--color-blue) !important;
+}
+
+.selectedBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-blue-text);
+  background: var(--color-blue-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-md);
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+  line-height: 1.35;
+  padding-right: 72px;
+}
+
+.area {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.highlights {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin-bottom: 10px;
+  min-height: 34px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.perNight {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.rating {
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--color-green-bg);
+  color: var(--color-green-text);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stars {
+  font-size: 11px;
+  color: var(--color-amber-text);
+  letter-spacing: 1px;
+}
+
+.total {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}

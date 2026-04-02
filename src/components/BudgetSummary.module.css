@@ -1,0 +1,88 @@
+.wrapper {
+  margin-top: 1.5rem;
+  border-top: 0.5px solid var(--color-border);
+  padding-top: 1.5rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.metricCard {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+
+.metricLabel {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.metricValue {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+.metricSub {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 3px;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdownRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+}
+
+.breakdownCity {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-right: 8px;
+}
+
+.breakdownHotel {
+  color: var(--color-text-secondary);
+}
+
+.breakdownRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.breakdownNights {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.breakdownCost {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 480px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cards > *:last-child {
+    grid-column: 1 / -1;
+  }
+}
